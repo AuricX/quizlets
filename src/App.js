@@ -17,8 +17,7 @@ function App() {
         <Sidebar />
         <div className="flex-1 flex flex-col">
           <Navbar />
-          <main className="flex-1 overflow-y-auto">
-            <Routes>
+            <Routes className="flex-1 overflow-y-auto">
               <Route path="/" element={<Dashboard />} />
               <Route path="/quizzes" element={<Quizzes />} />
               <Route path="/take-quiz" element={<TakeQuiz />} />
@@ -28,7 +27,6 @@ function App() {
               <Route path="/results" element={<Results />} />
               <Route path="/settings" element={<Settings />} />
             </Routes>
-          </main>
         </div>
       </div>
     </Router>
