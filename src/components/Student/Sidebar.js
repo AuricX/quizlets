@@ -4,7 +4,7 @@ import courses from "../../data/courses";
 
 const Sidebar = () => {
   return (
-    <div className="w-64 bg-white border-r">
+    <div className="w-64 bg-white border-r-2">
       <div className="p-4 text-xl font-bold">Quick Actions</div>
       <div className="p-4">
         <Button variant="primary" size="md" className="w-full">
