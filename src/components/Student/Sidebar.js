@@ -1,5 +1,5 @@
 import Button from "../Button";
-import AddIcon from '@mui/icons-material/Add';
+import AddIcon from "@mui/icons-material/Add";
 import courses from "../../data/courses";
 
 const Sidebar = () => {
@@ -14,13 +14,13 @@ const Sidebar = () => {
       </div>
       <div className="p-4 text-xl font-bold">Courses</div>
       <div className="px-4 mb-2 text-gray-600">
-        {courses.length === 0 ? 'No courses available' : null}
+        {courses.length === 0 ? "No courses available" : null}
         {courses.map((course) => (
           <Button
-          key={course.id}
-          variant="secondary"
-          size="sm"
-          className="w-full mb-2 text-left"
+            key={course.id}
+            variant="secondary"
+            size="sm"
+            className="w-full mb-2 text-left"
           >
             {course.name}
           </Button>
