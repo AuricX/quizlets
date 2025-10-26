@@ -1,15 +1,8 @@
 import Button from "../Button";
 import AddIcon from '@mui/icons-material/Add';
+import courses from "../../data/courses";
 
 const Sidebar = () => {
-
-  const courses = [
-    { id: 1, name: 'Mathematics 101' },
-    { id: 2, name: 'History of Art' },
-    { id: 3, name: 'Introduction to Programming' },
-  ];
-
-
   return (
     <div className="w-64 bg-white border-r">
       <div className="p-4 text-xl font-bold">Quick Actions</div>
