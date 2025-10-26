@@ -1,19 +1,3 @@
-import React from 'react';
-
-/**
- * Reusable Button component styled with TailwindCSS.
- * - Rounded corners by default (rounded-lg) to match existing `Sidebar` buttons
- * - Supports `variant` (primary | secondary | ghost) and `size` (sm | md | lg)
- * - Accessible focus styles and disabled state
- *
- * Props:
- * - children: node
- * - onClick: function
- * - variant: 'primary' | 'secondary' | 'ghost'
- * - size: 'sm' | 'md' | 'lg'
- * - rounded: boolean (default true)
- */
-
 const VARIANTS = {
   primary:
     'bg-blue-600 text-white hover:bg-blue-700 focus-visible:ring-blue-300',
