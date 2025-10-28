@@ -1,5 +1,5 @@
 import KpiCard from "../../components/KpiCard";
-import CoursePerformanceTable from "../../components/CoursePerformanceTable";
+import CoursePerformanceTable from "../../components/Student/CoursePerformanceTable";
 import coursePerformanceData from "../../data/coursePerformanceData";
 
 const Dashboard = () => {
