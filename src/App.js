@@ -1,21 +1,18 @@
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Dashboard from './pages/Student/Dashboard';
-import Sidebar from './components/Student/Sidebar';
-import Navbar from './components/Student/Navbar';
+import Login from './pages/Login';
+import DashboardLayout from './components/DashboardLayout';
 import './App.css';
 
 function App() {
   return (
     <Router>
-      <div className="flex min-h-screen bg-gray-100">
-        <Sidebar />
-        <div className="flex-1 flex flex-col">
-          <Navbar />
-            <Routes className="flex-1 overflow-y-auto">
-              <Route path="/" element={<Dashboard />} />
-            </Routes>
-        </div>
-      </div>
+      <Routes>
+        <Route path="/login" element={<Login />} />
+        <Route element={<DashboardLayout />}>
+          <Route path="/" element={<Dashboard />} />
+        </Route>
+      </Routes>
     </Router>
   );
 }
