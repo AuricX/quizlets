@@ -1,6 +1,5 @@
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Dashboard from './pages/Student/Dashboard';
-import EnrollCourses from './pages/Student/EnrollCourses';
 import Login from './pages/Login';
 import DashboardLayout from './components/DashboardLayout';
 import CoursesPage from './pages/Student/CoursesPage';
