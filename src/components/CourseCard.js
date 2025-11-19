@@ -1,5 +1,17 @@
 import Button from "./Button";
+import { useNavigate } from "react-router-dom";
+
 function CourseCard({course, onEnroll}) {
+  const navigate = useNavigate();
+
+  const handleClick = () => {
+    if (onEnroll) {
+      onEnroll(course);
+    } else {
+      navigate(`/courses/${course.courseId}`);
+    }
+  };
+
   return (
     <div
       key={course.courseId}
@@ -23,9 +35,9 @@ function CourseCard({course, onEnroll}) {
         <Button 
           variant="primary" 
           size="md"
-          onClick={onEnroll ? () => onEnroll(course) : undefined}
+          onClick={handleClick}
         >
-          {onEnroll ? "Enroll" : "Open Course"}
+          {onEnroll ? "Enroll" : "View Course"}
         </Button>
       </div>
     </div>
