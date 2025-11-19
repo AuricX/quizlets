@@ -1,25 +1,25 @@
 import HomeIcon from "@mui/icons-material/Home";
-import AutoStoriesIcon from '@mui/icons-material/AutoStories';
-import ManageAccountsIcon from '@mui/icons-material/ManageAccounts';
-import LogoutIcon from '@mui/icons-material/Logout';
+import AutoStoriesIcon from "@mui/icons-material/AutoStories";
+import ManageAccountsIcon from "@mui/icons-material/ManageAccounts";
+import LogoutIcon from "@mui/icons-material/Logout";
 import Button from "../Button";
-import { Link } from 'react-router-dom';
+import { Link } from "react-router-dom";
 
 const Navbar = () => {
   return (
     <div className="h-16 bg-white border-b-2 sticky p-2 flex items-center justify-between">
       <div className="flex items-center gap-2">
         <Link to="/">
-        <Button variant="secondary" size="sm">
-          <HomeIcon className="mr-2 h-4 w-4" />
-          Home
-        </Button>
+          <Button variant="secondary" size="sm">
+            <HomeIcon className="mr-2 h-4 w-4" />
+            Home
+          </Button>
         </Link>
-        <Link to="/Cou">
-        <Button variant="secondary" size="sm">
-          <AutoStoriesIcon className="mr-2 h-4 w-4" />
-          Courses
-        </Button>
+        <Link to="/courses">
+          <Button variant="secondary" size="sm">
+            <AutoStoriesIcon className="mr-2 h-4 w-4" />
+            Courses
+          </Button>
         </Link>
       </div>
       <div className="flex items-center gap-2">
