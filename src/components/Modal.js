@@ -25,7 +25,7 @@ const Modal = ({ isOpen, onClose, title, children }) => {
       onClick={onClose}
     >
       <div
-        className="bg-white rounded-lg shadow-xl w-full max-w-md animate-fadeIn"
+        className="bg-white rounded-lg shadow-xl w-full max-w-4xl max-h-[90vh] overflow-hidden animate-fadeIn"
         onClick={(e) => e.stopPropagation()}
       >
         {title && (
@@ -39,7 +39,7 @@ const Modal = ({ isOpen, onClose, title, children }) => {
             </button>
           </div>
         )}
-        <div className="px-6 py-4">{children}</div>
+        <div className="px-6 py-4 overflow-y-auto max-h-[calc(90vh-80px)]">{children}</div>
       </div>
     </div>
   );
