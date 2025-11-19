@@ -7,24 +7,27 @@ import EnrollCourses from './pages/Student/EnrollCourses';
 import CourseDetailsPage from './pages/Student/CourseDetailsPage';
 import QuizPage from './pages/Student/QuizPage';
 import { EnrollmentProvider } from './context/EnrollmentContext';
+import { AuthProvider } from './context/AuthContext';
 import './App.css';
 
 function App() {
   return (
-    <EnrollmentProvider>
-      <Router>
-        <Routes>
-          <Route path="/login" element={<Login />} />
-          <Route element={<DashboardLayout />}>
-            <Route path="/" element={<Dashboard />} />
-            <Route path="/courses" element={<CoursesPage />} />
-            <Route path="/courses/:id" element={<CourseDetailsPage />} />
-            <Route path="/enroll" element={<EnrollCourses />} />
-            <Route path="/quizzes/:id" element={<QuizPage />} />
-          </Route>
-        </Routes>
-      </Router>
-    </EnrollmentProvider>
+    <AuthProvider>
+      <EnrollmentProvider>
+        <Router>
+          <Routes>
+            <Route path="/login" element={<Login />} />
+            <Route element={<DashboardLayout />}>
+              <Route path="/" element={<Dashboard />} />
+              <Route path="/courses" element={<CoursesPage />} />
+              <Route path="/courses/:id" element={<CourseDetailsPage />} />
+              <Route path="/enroll" element={<EnrollCourses />} />
+              <Route path="/quizzes/:id" element={<QuizPage />} />
+            </Route>
+          </Routes>
+        </Router>
+      </EnrollmentProvider>
+    </AuthProvider>
   );
 }
 
