@@ -2,11 +2,13 @@ import { useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import courseQuizzes from "../../data/courseQuizzes";
 import Button from "../../components/Button";
+import { useEnrollment } from "../../context/EnrollmentContext";
 import { ArrowBack } from "@mui/icons-material";
 
 function QuizPage() {
   const { id } = useParams();
   const navigate = useNavigate();
+  const { completeQuiz } = useEnrollment();
   
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
   const [selectedAnswers, setSelectedAnswers] = useState({});
@@ -55,6 +57,9 @@ function QuizPage() {
     if (currentQuestionIndex < totalQuestions - 1) {
       setCurrentQuestionIndex(currentQuestionIndex + 1);
     } else {
+      // Calculate score and save completion before showing results
+      const score = calculateScore();
+      completeQuiz(quiz.id, score, totalQuestions);
       setShowResults(true);
     }
   };

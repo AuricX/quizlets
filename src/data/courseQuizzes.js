@@ -76,6 +76,78 @@ const courseQuizzes = [
           },
         ],
       },
+      {
+        id: "math-quiz-3",
+        title: "Calculus Introduction",
+        questions: [
+          {
+            id: "math-quiz-3-q1",
+            prompt: "What is the derivative of x²?",
+            options: [
+              { id: "a", text: "x", isCorrect: false },
+              { id: "b", text: "2x", isCorrect: true },
+              { id: "c", text: "x²", isCorrect: false },
+              { id: "d", text: "2", isCorrect: false },
+            ],
+          },
+          {
+            id: "math-quiz-3-q2",
+            prompt: "What does ∫ represent in mathematics?",
+            options: [
+              { id: "a", text: "Derivative", isCorrect: false },
+              { id: "b", text: "Integral", isCorrect: true },
+              { id: "c", text: "Summation", isCorrect: false },
+              { id: "d", text: "Product", isCorrect: false },
+            ],
+          },
+          {
+            id: "math-quiz-3-q3",
+            prompt: "What is the limit of 1/x as x approaches infinity?",
+            options: [
+              { id: "a", text: "Infinity", isCorrect: false },
+              { id: "b", text: "1", isCorrect: false },
+              { id: "c", text: "0", isCorrect: true },
+              { id: "d", text: "Undefined", isCorrect: false },
+            ],
+          },
+        ],
+      },
+      {
+        id: "math-quiz-4",
+        title: "Statistics Basics",
+        questions: [
+          {
+            id: "math-quiz-4-q1",
+            prompt: "What is the mean of the numbers 2, 4, 6, 8?",
+            options: [
+              { id: "a", text: "4", isCorrect: false },
+              { id: "b", text: "5", isCorrect: true },
+              { id: "c", text: "6", isCorrect: false },
+              { id: "d", text: "20", isCorrect: false },
+            ],
+          },
+          {
+            id: "math-quiz-4-q2",
+            prompt: "What is the median of 1, 3, 5, 7, 9?",
+            options: [
+              { id: "a", text: "3", isCorrect: false },
+              { id: "b", text: "5", isCorrect: true },
+              { id: "c", text: "7", isCorrect: false },
+              { id: "d", text: "25", isCorrect: false },
+            ],
+          },
+          {
+            id: "math-quiz-4-q3",
+            prompt: "Which measure shows the spread of data?",
+            options: [
+              { id: "a", text: "Mean", isCorrect: false },
+              { id: "b", text: "Median", isCorrect: false },
+              { id: "c", text: "Mode", isCorrect: false },
+              { id: "d", text: "Standard deviation", isCorrect: true },
+            ],
+          },
+        ],
+      },
     ],
   },
   {
@@ -155,6 +227,78 @@ const courseQuizzes = [
           },
         ],
       },
+      {
+        id: "art-quiz-3",
+        title: "Baroque and Rococo",
+        questions: [
+          {
+            id: "art-quiz-3-q1",
+            prompt: "Which artist painted 'The Night Watch'?",
+            options: [
+              { id: "a", text: "Caravaggio", isCorrect: false },
+              { id: "b", text: "Rembrandt", isCorrect: true },
+              { id: "c", text: "Rubens", isCorrect: false },
+              { id: "d", text: "Vermeer", isCorrect: false },
+            ],
+          },
+          {
+            id: "art-quiz-3-q2",
+            prompt: "What does 'chiaroscuro' mean?",
+            options: [
+              { id: "a", text: "Use of gold leaf", isCorrect: false },
+              { id: "b", text: "Perspective technique", isCorrect: false },
+              { id: "c", text: "Light and dark contrast", isCorrect: true },
+              { id: "d", text: "Fresco painting", isCorrect: false },
+            ],
+          },
+          {
+            id: "art-quiz-3-q3",
+            prompt: "Which period followed the Baroque?",
+            options: [
+              { id: "a", text: "Renaissance", isCorrect: false },
+              { id: "b", text: "Rococo", isCorrect: true },
+              { id: "c", text: "Neoclassical", isCorrect: false },
+              { id: "d", text: "Gothic", isCorrect: false },
+            ],
+          },
+        ],
+      },
+      {
+        id: "art-quiz-4",
+        title: "Impressionism",
+        questions: [
+          {
+            id: "art-quiz-4-q1",
+            prompt: "Who painted 'Water Lilies'?",
+            options: [
+              { id: "a", text: "Claude Monet", isCorrect: true },
+              { id: "b", text: "Pierre-Auguste Renoir", isCorrect: false },
+              { id: "c", text: "Edgar Degas", isCorrect: false },
+              { id: "d", text: "Paul Cézanne", isCorrect: false },
+            ],
+          },
+          {
+            id: "art-quiz-4-q2",
+            prompt: "Which city was the center of Impressionism?",
+            options: [
+              { id: "a", text: "London", isCorrect: false },
+              { id: "b", text: "Paris", isCorrect: true },
+              { id: "c", text: "Amsterdam", isCorrect: false },
+              { id: "d", text: "Vienna", isCorrect: false },
+            ],
+          },
+          {
+            id: "art-quiz-4-q3",
+            prompt: "Impressionists focused on capturing what?",
+            options: [
+              { id: "a", text: "Historical events", isCorrect: false },
+              { id: "b", text: "Religious themes", isCorrect: false },
+              { id: "c", text: "Light and movement", isCorrect: true },
+              { id: "d", text: "Geometric shapes", isCorrect: false },
+            ],
+          },
+        ],
+      },
     ],
   },
   {
@@ -230,6 +374,78 @@ const courseQuizzes = [
               { id: "b", text: "do...while loop", isCorrect: false },
               { id: "c", text: "switch statement", isCorrect: true },
               { id: "d", text: "try...catch block", isCorrect: false },
+            ],
+          },
+        ],
+      },
+      {
+        id: "prog-quiz-3",
+        title: "Functions and Scope",
+        questions: [
+          {
+            id: "prog-quiz-3-q1",
+            prompt: "What is a parameter in a function?",
+            options: [
+              { id: "a", text: "The function name", isCorrect: false },
+              { id: "b", text: "A value passed to the function", isCorrect: true },
+              { id: "c", text: "The return value", isCorrect: false },
+              { id: "d", text: "A function body", isCorrect: false },
+            ],
+          },
+          {
+            id: "prog-quiz-3-q2",
+            prompt: "What does a function return if no return statement is specified?",
+            options: [
+              { id: "a", text: "0", isCorrect: false },
+              { id: "b", text: "null", isCorrect: false },
+              { id: "c", text: "undefined", isCorrect: true },
+              { id: "d", text: "false", isCorrect: false },
+            ],
+          },
+          {
+            id: "prog-quiz-3-q3",
+            prompt: "What is lexical scope?",
+            options: [
+              { id: "a", text: "Global variables only", isCorrect: false },
+              { id: "b", text: "Scope determined by code structure", isCorrect: true },
+              { id: "c", text: "Function parameters", isCorrect: false },
+              { id: "d", text: "Block-level variables", isCorrect: false },
+            ],
+          },
+        ],
+      },
+      {
+        id: "prog-quiz-4",
+        title: "Arrays and Objects",
+        questions: [
+          {
+            id: "prog-quiz-4-q1",
+            prompt: "How do you access the first element of an array?",
+            options: [
+              { id: "a", text: "array[1]", isCorrect: false },
+              { id: "b", text: "array[0]", isCorrect: true },
+              { id: "c", text: "array.first()", isCorrect: false },
+              { id: "d", text: "array.get(0)", isCorrect: false },
+            ],
+          },
+          {
+            id: "prog-quiz-4-q2",
+            prompt: "Which method adds an element to the end of an array?",
+            options: [
+              { id: "a", text: "add()", isCorrect: false },
+              { id: "b", text: "append()", isCorrect: false },
+              { id: "c", text: "push()", isCorrect: true },
+              { id: "d", text: "insert()", isCorrect: false },
+            ],
+          },
+          {
+            id: "prog-quiz-4-q3",
+            prompt: "How do you access a property 'name' in an object 'person'?",
+            options: [
+              { id: "a", text: "person->name", isCorrect: false },
+              { id: "b", text: "person.name", isCorrect: true },
+              { id: "c", text: "person::name", isCorrect: false },
+              { id: "d", text: "person[name]", isCorrect: false },
             ],
           },
         ],

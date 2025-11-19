@@ -4,6 +4,8 @@ const EnrollmentContext = createContext();
 
 export const EnrollmentProvider = ({ children }) => {
   const [enrolledCourses, setEnrolledCourses] = useState([]);
+  const [completedQuizzes, setCompletedQuizzes] = useState({});
+  // completedQuizzes structure: { quizId: { score: number, totalQuestions: number, percentage: number, completedAt: timestamp } }
 
   const enrollInCourse = (courseId) => {
     if (!enrolledCourses.includes(courseId)) {
@@ -21,12 +23,37 @@ export const EnrollmentProvider = ({ children }) => {
     return enrolledCourses.includes(courseId);
   };
 
+  const completeQuiz = (quizId, score, totalQuestions) => {
+    const percentage = Math.round((score / totalQuestions) * 100);
+    setCompletedQuizzes({
+      ...completedQuizzes,
+      [quizId]: {
+        score,
+        totalQuestions,
+        percentage,
+        completedAt: Date.now()
+      }
+    });
+  };
+
+  const getQuizCompletion = (quizId) => {
+    return completedQuizzes[quizId] || null;
+  };
+
+  const isQuizCompleted = (quizId) => {
+    return !!completedQuizzes[quizId];
+  };
+
   return (
     <EnrollmentContext.Provider value={{ 
       enrolledCourses, 
       enrollInCourse, 
       unenrollFromCourse,
-      isEnrolled 
+      isEnrolled,
+      completedQuizzes,
+      completeQuiz,
+      getQuizCompletion,
+      isQuizCompleted
     }}>
       {children}
     </EnrollmentContext.Provider>
