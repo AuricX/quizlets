@@ -28,14 +28,16 @@ const Sidebar = () => {
       <div className="p-4">
         <div className="text-lg font-bold mb-2">My Courses</div>
         {myEnrolledCourses.map((course) => (
-          <Button
-            key={course.courseId}
-            variant="secondary"
-            size="sm"
-            className="w-full mb-2 text-left"
-          >
-            {course.courseName}
-          </Button>
+          <Link to={`/courses/${course.courseId}`} key={course.courseId}>
+            <Button
+              key={course.courseId}
+              variant="secondary"
+              size="sm"
+              className="w-full mb-2 text-left"
+            >
+              {course.courseName}
+            </Button>
+          </Link>
         ))}
         {myEnrolledCourses.length === 0 && (
           <p className="text-sm text-gray-500">No courses enrolled yet</p>
