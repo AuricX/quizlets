@@ -5,7 +5,7 @@ function Card({ course }) {
   const navigate = useNavigate();
 
   const handleClick = () => {
-    navigate(`/courses/${course.courseId}`);
+    navigate(`/manage-courses/${course.courseId}`);
   };
 
   return (

@@ -9,6 +9,7 @@ import CourseDetailsPage from './pages/Student/CourseDetailsPage';
 import QuizPage from './pages/Student/QuizPage';
 import Create from './pages/Teacher/Create';
 import Manage from './pages/Teacher/Manage';
+import CourseDetails from './pages/Teacher/CourseDetails';
 import { EnrollmentProvider } from './context/EnrollmentContext';
 import { AuthProvider, useAuth } from './context/AuthContext';
 import './App.css';
@@ -80,7 +81,7 @@ function App() {
               } />
               <Route path="manage-courses/:id" element={
                 <ProtectedRoute allowedRoles={['teacher']}>
-                  <div className="p-6"><h1 className="text-3xl font-bold">Course Details</h1></div>
+                  <CourseDetails />
                 </ProtectedRoute>
               } />
             </Route>
