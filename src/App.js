@@ -7,6 +7,7 @@ import CoursesPage from './pages/Student/CoursesPage';
 import EnrollCourses from './pages/Student/EnrollCourses';
 import CourseDetailsPage from './pages/Student/CourseDetailsPage';
 import QuizPage from './pages/Student/QuizPage';
+import Create from './pages/Teacher/Create'
 import { EnrollmentProvider } from './context/EnrollmentContext';
 import { AuthProvider, useAuth } from './context/AuthContext';
 import './App.css';
@@ -72,8 +73,8 @@ function App() {
                 </ProtectedRoute>
               } />
               <Route path="/create-course" element={
-                <ProtectedRoute allowedRoles={['teacher']}>
-                  <div className="p-6"><h1 className="text-3xl font-bold">Create Course</h1></div>
+                <ProtectedRoute allowedRoles={['teacher']}> 
+                  <Create />
                 </ProtectedRoute>
               } />
               <Route path="manage-courses/:id" element={
