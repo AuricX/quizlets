@@ -31,7 +31,7 @@ const ProfileModal = ({ isOpen, onClose }) => {
   };
 
   const handleOpen = () => {
-    setUsername(user?.username || "");
+    setUsername(user?.name || "");
     setPassword("");
     setConfirmPassword("");
   };
@@ -46,15 +46,28 @@ const ProfileModal = ({ isOpen, onClose }) => {
       <form onSubmit={handleProfileUpdate} className="space-y-4">
         <div>
           <label className="block text-sm font-medium text-gray-700 mb-2">
-            Username
+            Name
           </label>
           <input
             type="text"
-            value={username || user?.username || ""}
+            value={username || user?.name || ""}
             onChange={(e) => setUsername(e.target.value)}
             className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-            placeholder="Enter new username"
+            placeholder="Enter new name"
           />
+        </div>
+        
+        <div>
+          <label className="block text-sm font-medium text-gray-700 mb-2">
+            Email
+          </label>
+          <input
+            type="email"
+            value={user?.email || ""}
+            disabled
+            className="w-full px-4 py-2 border rounded-lg bg-gray-100 text-gray-500"
+          />
+          <p className="text-xs text-gray-500 mt-1">Email cannot be changed</p>
         </div>
 
         <div>

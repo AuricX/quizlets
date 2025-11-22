@@ -1,19 +1,40 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { useAuth } from "../context/AuthContext";
+import { users } from "../data/users";
+
 const Login = () => {
   const [values, setValues] = useState({
-    Email: "",
-    Password: "",
-    type: "student",
+    email: "",
+    password: "",
   });
+  const [error, setError] = useState("");
+  const { login } = useAuth();
+  const navigate = useNavigate();
 
   const handlechanges = (e) => {
-    setValues({ ...values, [e.target.name]: [e.target.value] });
+    setValues({ ...values, [e.target.name]: e.target.value });
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log('Login values:', values);
-    // wait for database in part 2
+    setError("");
+
+    const user = users.find(
+      (u) => u.email === values.email && u.password === values.password
+    );
+
+    if (user) {
+      login({
+        id: user.id,
+        name: user.name,
+        email: user.email,
+        role: user.role,
+      });
+      navigate("/");
+    } else {
+      setError("Invalid email or password");
+    }
   };
 
   return (
@@ -23,65 +44,42 @@ const Login = () => {
           Quizlets Login
         </h1>
         <form onSubmit={handleSubmit} className="space-y-5">
+          {error && (
+            <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded">
+              {error}
+            </div>
+          )}
+          
           <div>
-            <label htmlFor="Email" className="block text-sm font-medium text-gray-700 mb-1">
+            <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-1">
               Email
             </label>
             <input
               type="email"
               placeholder="Enter your Email"
-              name="Email"
-              id="Email"
+              name="email"
+              id="email"
               required
-              onChange={(e) => handlechanges(e)}
+              value={values.email}
+              onChange={handlechanges}
               className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition"
             />
           </div>
 
           <div>
-            <label htmlFor="Password" className="block text-sm font-medium text-gray-700 mb-1">
+            <label htmlFor="password" className="block text-sm font-medium text-gray-700 mb-1">
               Password
             </label>
             <input
               type="password"
               placeholder="Enter your password"
-              name="Password"
-              id="Password"
+              name="password"
+              id="password"
               required
-              onChange={(e) => handlechanges(e)}
+              value={values.password}
+              onChange={handlechanges}
               className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition"
             />
-          </div>
-
-          <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">
-              Login as
-            </label>
-            <div className="flex gap-6">
-              <label className="flex items-center cursor-pointer">
-                <input
-                  type="radio"
-                  name="type"
-                  value="student"
-                  required
-                  onChange={(e) => handlechanges(e)}
-                  defaultChecked
-                  className="w-4 h-4 text-blue-500 focus:ring-2 focus:ring-blue-500"
-                />
-                <span className="ml-2 text-gray-700">Student</span>
-              </label>
-              <label className="flex items-center cursor-pointer">
-                <input
-                  type="radio"
-                  name="type"
-                  value="instructor"
-                  required
-                  onChange={(e) => handlechanges(e)}
-                  className="w-4 h-4 text-blue-500 focus:ring-2 focus:ring-blue-500"
-                />
-                <span className="ml-2 text-gray-700">Instructor</span>
-              </label>
-            </div>
           </div>
 
           <button
@@ -91,6 +89,12 @@ const Login = () => {
             Login
           </button>
         </form>
+        
+        <div className="mt-6 text-sm text-gray-600">
+          <p className="font-semibold mb-2">Demo Accounts:</p>
+          <p>Student: alice@example.com / student123</p>
+          <p>Teacher: sarah@example.com / teacher123</p>
+        </div>
       </div>
     </div>
   );

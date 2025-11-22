@@ -3,15 +3,11 @@ import { createContext, useContext, useState } from 'react';
 const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
-  const [user, setUser] = useState({
-    username: 'Student',
-    email: 'student@example.com'
-  });
-  const [isAuthenticated, setIsAuthenticated] = useState(true);
+  const [user, setUser] = useState(null);
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
 
-  const login = (username, password) => {
-    // Simple authentication - in real app, this would call an API
-    setUser({ username, email: `${username}@example.com` });
+  const login = (userData) => {
+    setUser(userData);
     setIsAuthenticated(true);
     return true;
   };
@@ -22,8 +18,7 @@ export const AuthProvider = ({ children }) => {
   };
 
   const updateProfile = (username, password) => {
-    // Update user profile - in real app, this would call an API
-    setUser({ ...user, username });
+    setUser({ ...user, name: username });
     return true;
   };
 
