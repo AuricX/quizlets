@@ -1,7 +1,8 @@
 import { useState } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import courseQuizzes from "../../data/courseQuizzes";
 import QuizViewCard from "../../components/Teacher/QuizViewCard";
+import { ArrowBack } from "@mui/icons-material";
 
 import {
   Box,
@@ -18,6 +19,7 @@ import AddIcon from "@mui/icons-material/Add";
 import RemoveIcon from "@mui/icons-material/Remove";
 
 function CourseDetails() {
+  const navigate = useNavigate();
   const { id } = useParams();
   const course = courseQuizzes.find(c => c.courseId === parseInt(id));
 
@@ -60,7 +62,13 @@ function CourseDetails() {
 
   return (
     <div className="p-6">
-
+      <Button 
+            variant="primary" 
+            className="mt-4 gap-2"
+            onClick={() => navigate('/manage-courses')}
+          >
+            <ArrowBack/> Back to Courses
+          </Button>
       <h1 className="text-3xl font-bold mb-6">{course.courseName}</h1>
 
      
