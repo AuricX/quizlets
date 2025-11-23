@@ -12,6 +12,7 @@ import Manage from './pages/Teacher/Manage';
 import CourseDetails from './pages/Teacher/CourseDetails';
 import { EnrollmentProvider } from './context/EnrollmentContext';
 import { AuthProvider, useAuth } from './context/AuthContext';
+import QuizViewer from './pages/Teacher/QuizViewer';
 import './App.css';
 
 const ProtectedRoute = ({ children, allowedRoles }) => {
@@ -82,6 +83,11 @@ function App() {
               <Route path="manage-courses/:id" element={
                 <ProtectedRoute allowedRoles={['teacher']}>
                   <CourseDetails />
+                </ProtectedRoute>
+              } />
+                  <Route path="/courses/:courseId/quiz/:quizId"element={
+                <ProtectedRoute allowedRoles={['teacher']}>
+                  <QuizViewer />
                 </ProtectedRoute>
               } />
             </Route>
