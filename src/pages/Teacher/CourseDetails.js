@@ -12,7 +12,9 @@ import {
   DialogContent,
   DialogActions,
   TextField,
-  IconButton
+  IconButton,
+  Radio,
+  FormControlLabel
 } from "@mui/material";
 
 import AddIcon from "@mui/icons-material/Add";
@@ -24,7 +26,7 @@ function CourseDetails() {
   const course = courseQuizzes.find(c => c.courseId === parseInt(id));
 
   const [open, setOpen] = useState(false);
-  const [questions, setQuestions] = useState([{ prompt: "", options: ["", "", ""] }]);
+  const [questions, setQuestions] = useState([{ prompt: "", options: ["", "", ""], correctAnswer: 0 }]);
 
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
@@ -32,7 +34,7 @@ function CourseDetails() {
  const [quizTitle, setQuizTitle] = useState("");
 
   const handleAddQuestion = () => {
-    setQuestions([...questions, { prompt: "", options: ["", "", ""] }]);
+    setQuestions([...questions, { prompt: "", options: ["", "", ""], correctAnswer: 0 }]);
   };
 
   const handleRemoveQuestion = (index) => {
@@ -48,6 +50,12 @@ function CourseDetails() {
   const handleChangeOption = (qIndex, optIndex, value) => {
     const updated = [...questions];
     updated[qIndex].options[optIndex] = value;
+    setQuestions(updated);
+  };
+
+  const handleCorrectAnswerChange = (qIndex, optIndex) => {
+    const updated = [...questions];
+    updated[qIndex].correctAnswer = optIndex;
     setQuestions(updated);
   };
 
@@ -118,16 +126,21 @@ function CourseDetails() {
       </Box>
 
       {q.options.map((opt, optIndex) => (
-        <TextField
-          key={optIndex}
-          label={`Answer ${optIndex + 1}`}
-          fullWidth
-          sx={{ mt: 1 }}
-          value={opt}
-          onChange={(e) =>
-            handleChangeOption(qIndex, optIndex, e.target.value)
-          }
-        />
+        <Box key={optIndex} display="flex" alignItems="center" sx={{ mt: 1 }}>
+          <Radio
+            checked={q.correctAnswer === optIndex}
+            onChange={() => handleCorrectAnswerChange(qIndex, optIndex)}
+            value={optIndex}
+          />
+          <TextField
+            label={`Answer ${optIndex + 1}`}
+            fullWidth
+            value={opt}
+            onChange={(e) =>
+              handleChangeOption(qIndex, optIndex, e.target.value)
+            }
+          />
+        </Box>
       ))}
     </Box>
   ))}

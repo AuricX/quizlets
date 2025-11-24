@@ -2,11 +2,26 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Button from "../../components/Button";
+import { Box, Typography } from "@mui/material";
+import CloudUploadIcon from "@mui/icons-material/CloudUpload";
 
 const Create = () => {
   const navigate = useNavigate();
   const [courseName, setCourseName] = useState("");
-  const [image, setImage] = useState("");
+  const [image, setImage] = useState(null);
+  const [imagePreview, setImagePreview] = useState("");
+
+  const handleFileChange = (event) => {
+    const file = event.target.files[0];
+    if (file) {
+      setImage(file);
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setImagePreview(reader.result);
+      };
+      reader.readAsDataURL(file);
+    }
+  };
 
   const handleCreate = () => {
     if (!courseName) return alert("Please enter course name.");
@@ -29,13 +44,48 @@ const Create = () => {
       </div>
 
       <div className="mb-6">
-        <label className="block text-gray-700 font-semibold mb-2">Course Image URL</label>
-        <input
-          type="text"
-          value={image}
-          onChange={(e) => setImage(e.target.value)}
-          className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
-        />
+        <label className="block text-gray-700 font-semibold mb-2">Course Image</label>
+        <Box
+          component="label"
+          sx={{
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center',
+            justifyContent: 'center',
+            border: '2px dashed #cbd5e0',
+            borderRadius: '8px',
+            padding: '40px',
+            cursor: 'pointer',
+            transition: 'all 0.3s',
+            '&:hover': {
+              borderColor: '#3b82f6',
+              backgroundColor: '#f7fafc',
+            },
+          }}
+        >
+          <input
+            type="file"
+            accept="image/*"
+            onChange={handleFileChange}
+            style={{ display: 'none' }}
+          />
+          <CloudUploadIcon sx={{ fontSize: 48, color: '#9ca3af', mb: 2 }} />
+          <Typography variant="body1" color="textSecondary">
+            {image ? image.name : 'Click to upload or drag and drop'}
+          </Typography>
+          <Typography variant="caption" color="textSecondary">
+            PNG, JPG, GIF up to 10MB
+          </Typography>
+        </Box>
+        {imagePreview && (
+          <Box mt={2} textAlign="center">
+            <img
+              src={imagePreview}
+              alt="Preview"
+              style={{ maxWidth: '300px', maxHeight: '200px', borderRadius: '8px' }}
+            />
+          </Box>
+        )}
       </div>
 
       <Button variant="primary" size="md" onClick={handleCreate}>
