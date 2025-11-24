@@ -6,7 +6,6 @@ import { Box, Typography } from "@mui/material";
 import CloudUploadIcon from "@mui/icons-material/CloudUpload";
 
 const Create = () => {
-  const navigate = useNavigate();
   const [courseName, setCourseName] = useState("");
   const [image, setImage] = useState(null);
   const [imagePreview, setImagePreview] = useState("");
