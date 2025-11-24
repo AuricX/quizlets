@@ -14,7 +14,6 @@ Quizlets is a role-based Learning Management System built with React that enable
 
 ### Development Tools
 - **Create React App** - Build toolchain and configuration
-- **React Testing Library** - Component testing
 - **PostCSS & Autoprefixer** - CSS processing
 
 ## Main Features
@@ -61,7 +60,8 @@ src/
 ## Team Contributions
 ### Razi Chaaban - [https://github.com/AuricX](https://github.com/AuricX)
 - Pages and components related to students (courses listing, course enroll, quiz taking, dashboard, sidebar, navbar)
-- Authentication system (auth context)
+- Protected Routing System
+- Authentication System (auth context)
 
 ### Mohammad Abdullah - [https://github.com/redlol12345](https://github.com/redlol12345)
 - Pages and components related to teachers (course management, course adding, quiz creation, dashboard, sidebar, navbar)
