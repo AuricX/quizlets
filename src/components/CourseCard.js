@@ -18,9 +18,9 @@ function CourseCard({course, onEnroll}) {
       className="bg-white border border-gray-200 rounded-2xl shadow-sm hover:shadow-lg transition-all duration-200 overflow-hidden"
     >
       <img
-        src={course.image}
+        src={course.image_url ? course.image_url : '/noimage.webp'}
         alt={course.courseName}
-        className="w-full h-40 object-cover"
+        className={course.image_url ? "w-full h-48 object-cover" : "w-full h-48 object-contain bg-gray-100" }
       />
 
       <div className="p-6">
