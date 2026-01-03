@@ -1,19 +1,48 @@
+import { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import courseQuizzes from "../../data/courseQuizzes";
 import QuizCard from "../../components/QuizCard";
 import Button from "../../components/Button";
 import { ArrowBack } from "@mui/icons-material";
+import api from "../../services/api";
 
 function CourseDetailsPage() {
   const { id } = useParams();
   const navigate = useNavigate();
-  const courseId = parseInt(id);
+  const [course, setCourse] = useState(null);
+  const [quizzes, setQuizzes] = useState([]);
+  const [loading, setLoading] = useState(true);
 
-  const course = courseQuizzes.find(c => c.courseId === courseId);
+  useEffect(() => {
+    const fetchCourseQuizzes = async () => {
+      try {
+        const response = await api.get(`/courses/${id}/quizzes`);
+        const courseData = response.data;
+        
+        setCourse(courseData);
+        setQuizzes(courseData.quizzes || []);
+      } catch (error) {
+        console.error('Error fetching course quizzes:', error);
+        setCourse(null);
+        setQuizzes([]);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchCourseQuizzes();
+  }, [id]);
 
   const handleStartQuiz = (quiz) => {
-    navigate(`/quizzes/${quiz.id}`);
+    navigate(`/quizzes/${quiz.quiz_id}`);
   };
+
+  if (loading) {
+    return (
+      <div className="p-6 flex items-center justify-center min-h-screen">
+        <div className="text-xl text-gray-600">Loading course details...</div>
+      </div>
+    );
+  }
 
   if (!course) {
     return (
@@ -43,23 +72,23 @@ function CourseDetailsPage() {
         >
           <ArrowBack/> Back to Courses
         </Button>
-        <h1 className="text-3xl font-bold text-gray-800">{course.courseName}</h1>
+        <h1 className="text-3xl font-bold text-gray-800">{course.title}</h1>
         <p className="text-gray-600 mt-2">
-          {course.quizzes.length} {course.quizzes.length === 1 ? 'quiz' : 'quizzes'} available
+          {quizzes.length} {quizzes.length === 1 ? 'quiz' : 'quizzes'} available
         </p>
       </div>
 
-      {course.quizzes.length === 0 ? (
+      {quizzes.length === 0 ? (
         <div className="bg-yellow-50 border border-yellow-200 rounded-lg p-6 text-center">
           <p className="text-yellow-800 text-lg">No quizzes available for this course yet.</p>
         </div>
       ) : (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {course.quizzes.map((quiz) => (
+          {quizzes.map((quiz) => (
             <QuizCard
-              key={quiz.id}
+              key={quiz.quiz_id || quiz.id}
               quiz={quiz}
-              courseId={courseId}
+              courseId={id}
               onStartQuiz={handleStartQuiz}
             />
           ))}

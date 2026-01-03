@@ -16,7 +16,7 @@ function QuizCard({ quiz, courseId, onStartQuiz }) {
       <div className="p-6">
         <h2 className="text-xl font-semibold text-gray-800">{quiz.title}</h2>
         <p className="text-gray-500 mt-2 text-sm">
-          {quiz.questions.length} questions
+          {quiz.question_count} questions
         </p>
         {completion && (
           <p className="text-green-600 mt-2 text-sm font-medium">
