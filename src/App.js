@@ -16,7 +16,11 @@ import QuizViewer from './pages/Teacher/QuizViewer';
 import './App.css';
 
 const ProtectedRoute = ({ children, allowedRoles }) => {
-  const { user, isAuthenticated } = useAuth();
+  const { user, isAuthenticated, loading } = useAuth();
+  
+  if (loading) {
+    return <div className="flex items-center justify-center min-h-screen">Loading...</div>;
+  }
   
   if (!isAuthenticated || !user) {
     return <Navigate to="/login" replace />;

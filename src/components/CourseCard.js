@@ -8,7 +8,7 @@ function CourseCard({course, onEnroll}) {
     if (onEnroll) {
       onEnroll(course);
     } else {
-      navigate(`/courses/${course.courseId}`);
+      navigate(`/courses/${course.course_id}`);
     }
   };
 
