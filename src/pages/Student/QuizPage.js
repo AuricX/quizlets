@@ -8,7 +8,6 @@ import api from "../../services/api";
 function QuizPage() {
   const { id } = useParams();
   const navigate = useNavigate();
-  const { completeQuiz } = useEnrollment();
   
   const [quiz, setQuiz] = useState(null);
   const [loading, setLoading] = useState(true);
