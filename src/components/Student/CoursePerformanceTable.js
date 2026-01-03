@@ -23,20 +23,20 @@ const CoursePerformanceTable = ({ courses }) => {
         </thead>
         <tbody className="divide-y">
           {courses.map((course, index) => {
-            const progressPercentage =
-              (course.quizzesCompleted / course.totalQuizzes) * 100;
+            const progressPercentage = parseFloat(course.progress);
+            const averageScore = parseFloat(course.average_score);
 
             return (
-              <tr key={course.id || index}>
+              <tr key={course.course_id || index}>
                 <td className="py-4 px-4">
-                  <div className="ml-2">{course.name}</div>
+                  <div className="ml-2">{course.course_name}</div>
                 </td>
                 <td className="py-4 px-4 text-center">
-                  {course.quizzesCompleted}
+                  {course.quizzes_completed}
                 </td>
-                <td className="py-4 px-4 text-center">{course.totalQuizzes}</td>
+                <td className="py-4 px-4 text-center">{course.total_quizzes}</td>
                 <td className="py-4 px-4 text-center">
-                  {course.averageScore}%
+                  {averageScore.toFixed(1)}%
                 </td>
                 <td className="py-4 px-4 text-right">
                   <div className="flex items-center justify-end">
