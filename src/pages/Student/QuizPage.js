@@ -1,29 +1,42 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import courseQuizzes from "../../data/courseQuizzes";
 import Button from "../../components/Button";
 import { useEnrollment } from "../../context/EnrollmentContext";
 import { ArrowBack } from "@mui/icons-material";
+import api from "../../services/api";
 
 function QuizPage() {
   const { id } = useParams();
   const navigate = useNavigate();
   const { completeQuiz } = useEnrollment();
   
+  const [quiz, setQuiz] = useState(null);
+  const [loading, setLoading] = useState(true);
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
   const [selectedAnswers, setSelectedAnswers] = useState({});
   const [showResults, setShowResults] = useState(false);
 
-  let quiz = null;
-  let course = null;
-  
-  for (const c of courseQuizzes) {
-    const foundQuiz = c.quizzes.find(q => q.id === id);
-    if (foundQuiz) {
-      quiz = foundQuiz;
-      course = c;
-      break;
-    }
+  useEffect(() => {
+    const fetchQuiz = async () => {
+      try {
+        const response = await api.get(`/quizzes/${id}`);
+        setQuiz(response.data);
+      } catch (error) {
+        console.error('Error fetching quiz:', error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchQuiz();
+  }, [id]);
+
+  if (loading) {
+    return (
+      <div className="p-6 flex items-center justify-center min-h-screen">
+        <div className="text-xl text-gray-600">Loading quiz...</div>
+      </div>
+    );
   }
 
   if (!quiz) {
@@ -46,10 +59,10 @@ function QuizPage() {
   const currentQuestion = quiz.questions[currentQuestionIndex];
   const totalQuestions = quiz.questions.length;
 
-  const handleAnswerSelect = (optionId) => {
+  const handleAnswerSelect = (choiceId) => {
     setSelectedAnswers({
       ...selectedAnswers,
-      [currentQuestion.id]: optionId
+      [currentQuestion.question_id]: choiceId
     });
   };
 
@@ -57,9 +70,8 @@ function QuizPage() {
     if (currentQuestionIndex < totalQuestions - 1) {
       setCurrentQuestionIndex(currentQuestionIndex + 1);
     } else {
-      // Calculate score and save completion before showing results
       const score = calculateScore();
-      completeQuiz(quiz.id, score, totalQuestions);
+      completeQuiz(quiz.quiz_id, score, totalQuestions);
       setShowResults(true);
     }
   };
@@ -73,9 +85,9 @@ function QuizPage() {
   const calculateScore = () => {
     let correct = 0;
     quiz.questions.forEach(question => {
-      const selectedOption = selectedAnswers[question.id];
-      const correctOption = question.options.find(opt => opt.isCorrect);
-      if (selectedOption === correctOption.id) {
+      const selectedChoice = selectedAnswers[question.question_id];
+      const correctChoice = question.choices.find(choice => choice.is_correct === 1);
+      if (selectedChoice === correctChoice.choice_id) {
         correct++;
       }
     });
@@ -109,26 +121,26 @@ function QuizPage() {
 
           <div className="space-y-4 mb-6">
             {quiz.questions.map((question, index) => {
-              const selectedOption = selectedAnswers[question.id];
-              const correctOption = question.options.find(opt => opt.isCorrect);
-              const isCorrect = selectedOption === correctOption.id;
+              const selectedChoice = selectedAnswers[question.question_id];
+              const correctChoice = question.choices.find(choice => choice.is_correct === 1);
+              const isCorrect = selectedChoice === correctChoice.choice_id;
 
               return (
                 <div 
-                  key={question.id} 
+                  key={question.question_id} 
                   className={`p-4 rounded-lg border-2 ${
                     isCorrect ? 'bg-green-50 border-green-300' : 'bg-red-50 border-red-300'
                   }`}
                 >
                   <p className="font-semibold mb-2">
-                    {index + 1}. {question.prompt}
+                    {index + 1}. {question.body}
                   </p>
                   <p className="text-sm">
-                    Your answer: {question.options.find(opt => opt.id === selectedOption)?.text || 'Not answered'}
+                    Your answer: {question.choices.find(choice => choice.choice_id === selectedChoice)?.text || 'Not answered'}
                   </p>
                   {!isCorrect && (
                     <p className="text-sm text-green-700 mt-1">
-                      Correct answer: {correctOption.text}
+                      Correct answer: {correctChoice.text}
                     </p>
                   )}
                 </div>
@@ -140,7 +152,7 @@ function QuizPage() {
             <Button variant="secondary" onClick={handleRetry}>
               Retry Quiz
             </Button>
-            <Button variant="primary" onClick={() => navigate(`/courses/${course.courseId}`)}>
+            <Button variant="primary" onClick={() => navigate(`/courses/${quiz.course_id}`)}>
               Back to Course
             </Button>
           </div>
@@ -155,7 +167,7 @@ function QuizPage() {
         <Button 
           variant="secondary" 
           size="sm"
-          onClick={() => navigate(`/courses/${course.courseId}`)}
+          onClick={() => navigate(`/courses/${quiz.course_id}`)}
           className="mb-4 gap-2"
         >
           <ArrowBack/> Exit Quiz
@@ -170,21 +182,21 @@ function QuizPage() {
 
       <div className="bg-white rounded-lg shadow-lg p-8">
         <h2 className="text-xl font-semibold text-gray-800 mb-6">
-          {currentQuestion.prompt}
+          {currentQuestion.body}
         </h2>
 
         <div className="space-y-3 mb-8">
-          {currentQuestion.options.map((option) => (
+          {currentQuestion.choices.map((choice, index) => (
             <button
-              key={option.id}
-              onClick={() => handleAnswerSelect(option.id)}
+              key={choice.choice_id}
+              onClick={() => handleAnswerSelect(choice.choice_id)}
               className={`w-full p-4 text-left rounded-lg border-2 transition-all duration-200 ${
-                selectedAnswers[currentQuestion.id] === option.id
+                selectedAnswers[currentQuestion.question_id] === choice.choice_id
                   ? 'border-blue-500 bg-blue-50'
                   : 'border-gray-200 hover:border-gray-300 hover:bg-gray-50'
               }`}
             >
-              <span className="font-medium">{option.id.toUpperCase()}.</span> {option.text}
+              <span className="font-medium">{String.fromCharCode(65 + index)}.</span> {choice.text}
             </button>
           ))}
         </div>
@@ -205,7 +217,7 @@ function QuizPage() {
                 className={`w-3 h-3 rounded-full ${
                   index === currentQuestionIndex
                     ? 'bg-blue-600'
-                    : selectedAnswers[quiz.questions[index].id]
+                    : selectedAnswers[quiz.questions[index].question_id]
                     ? 'bg-green-400'
                     : 'bg-gray-300'
                 }`}
@@ -216,7 +228,7 @@ function QuizPage() {
           <Button
             variant="primary"
             onClick={handleNext}
-            disabled={!selectedAnswers[currentQuestion.id]}
+            disabled={!selectedAnswers[currentQuestion.question_id]}
           >
             {currentQuestionIndex === totalQuestions - 1 ? 'Submit' : 'Next'}
           </Button>
