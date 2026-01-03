@@ -66,13 +66,32 @@ function QuizPage() {
     });
   };
 
-  const handleNext = () => {
+  const handleNext = async () => {
     if (currentQuestionIndex < totalQuestions - 1) {
       setCurrentQuestionIndex(currentQuestionIndex + 1);
     } else {
-      const score = calculateScore();
-      completeQuiz(quiz.quiz_id, score, totalQuestions);
-      setShowResults(true);
+      try {
+        const userStr = localStorage.getItem('user');
+        const user = userStr ? JSON.parse(userStr) : null;
+        
+        if (!user || !user.user_id) {
+          alert('User not found. Please login again.');
+          return;
+        }
+        
+        const score = calculateScore();
+        
+        await api.post('/quizzes/attempts', {
+          student_id: user.user_id,
+          quiz_id: quiz.quiz_id,
+          score: score
+        });
+        
+        setShowResults(true);
+      } catch (error) {
+        console.error('Error submitting quiz:', error);
+        alert('Failed to submit quiz. Please try again.');
+      }
     }
   };
 

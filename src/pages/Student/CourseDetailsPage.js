@@ -10,16 +10,43 @@ function CourseDetailsPage() {
   const navigate = useNavigate();
   const [course, setCourse] = useState(null);
   const [quizzes, setQuizzes] = useState([]);
+  const [quizAttempts, setQuizAttempts] = useState({});
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const fetchCourseQuizzes = async () => {
       try {
+        const userStr = localStorage.getItem('user');
+        const user = userStr ? JSON.parse(userStr) : null;
+        
         const response = await api.get(`/courses/${id}/quizzes`);
         const courseData = response.data;
         
         setCourse(courseData);
         setQuizzes(courseData.quizzes || []);
+        
+        if (user && user.user_id) {
+          try {
+            const attemptsResponse = await api.post(`/quizzes/course-attempts`, {
+              student_id: user.user_id,
+              course_id: id
+            });
+            const attempts = attemptsResponse.data;
+            
+            // Create a map of quiz_id -> attempt with score
+            const attemptsMap = {};
+            attempts.forEach(attempt => {
+              attemptsMap[attempt.quiz_id] = {
+                attempt_id: attempt.attempt_id,
+                score: parseFloat(attempt.score),
+                quiz_id: attempt.quiz_id
+              };
+            });
+            setQuizAttempts(attemptsMap);
+          } catch (error) {
+            console.error('Error fetching quiz attempts:', error);
+          }
+        }
       } catch (error) {
         console.error('Error fetching course quizzes:', error);
         setCourse(null);
@@ -89,6 +116,7 @@ function CourseDetailsPage() {
               key={quiz.quiz_id || quiz.id}
               quiz={quiz}
               courseId={id}
+              attempt={quizAttempts[quiz.quiz_id]}
               onStartQuiz={handleStartQuiz}
             />
           ))}

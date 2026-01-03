@@ -1,9 +1,11 @@
 import Button from "./Button";
-import { useEnrollment } from "../context/EnrollmentContext";
 
-function QuizCard({ quiz, courseId, onStartQuiz }) {
-  const { getQuizCompletion } = useEnrollment();
-  const completion = getQuizCompletion(quiz.id);
+function QuizCard({ quiz, courseId, attempt, onStartQuiz }) {
+  const completion = attempt ? {
+    score: attempt.score,
+    totalQuestions: quiz.question_count,
+    percentage: Math.round((attempt.score / quiz.question_count) * 100)
+  } : null;
 
   return (
     <div className="bg-white border border-gray-200 rounded-2xl shadow-sm hover:shadow-lg transition-all duration-200 overflow-hidden">
