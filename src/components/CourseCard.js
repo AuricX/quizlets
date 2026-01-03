@@ -14,20 +14,20 @@ function CourseCard({course, onEnroll}) {
 
   return (
     <div
-      key={course.courseId}
+      key={course.course_id}
       className="bg-white border border-gray-200 rounded-2xl shadow-sm hover:shadow-lg transition-all duration-200 overflow-hidden"
     >
       <img
         src={course.image_url ? course.image_url : '/noimage.webp'}
-        alt={course.courseName}
+        alt={course.title}
         className={course.image_url ? "w-full h-48 object-cover" : "w-full h-48 object-contain bg-gray-100" }
       />
 
       <div className="p-6">
-        <h2 className="text-xl font-semibold text-gray-800">{course.courseName}</h2>
+        <h2 className="text-xl font-semibold text-gray-800">{course.title}</h2>
 
         <p className="text-gray-500 mt-2 text-sm">
-          Explore lessons, quizzes, and track your learning progress.
+          {course.description ? course.description : "No description available."}
         </p>
       </div>
 

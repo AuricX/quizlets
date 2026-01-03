@@ -1,20 +1,70 @@
+import { useState, useEffect } from 'react';
 import CourseCard from '../../components/CourseCard';
-import courseQuizzes from '../../data/courseQuizzes';
+import api from '../../services/api';
 import { useEnrollment } from '../../context/EnrollmentContext';
 
 const EnrollCourses = () => {
   const { enrolledCourses, enrollInCourse } = useEnrollment();
+  const [availableCourses, setAvailableCourses] = useState([]);
+  const [loading, setLoading] = useState(true);
 
-  const handleEnroll = (course) => {
-    const success = enrollInCourse(course.courseId);
-    if (success) {
-      alert(`Successfully enrolled in ${course.courseName}!`);
-    } else {
-      alert(`You are already enrolled in ${course.courseName}`);
+  useEffect(() => {
+    const fetchAvailableCourses = async () => {
+      try {
+        const userStr = localStorage.getItem('user');
+        const userId = userStr ? JSON.parse(userStr).user_id : null;
+        
+        if (!userId) {
+          console.error('No user ID found');
+          setLoading(false);
+          return;
+        }
+        
+        const response = await api.get('/courses/available', { params: { userId: userId } });
+        setAvailableCourses(response.data);
+      } catch (error) {
+        console.error('Error fetching courses:', error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchAvailableCourses();
+  }, [enrolledCourses]);
+
+  const handleEnroll = async (course) => {
+    try {
+      const userStr = localStorage.getItem('user');
+      const user = userStr ? JSON.parse(userStr) : null;
+      
+      if (!user || !user.user_id) {
+        alert('User not found. Please login again.');
+        return;
+      }
+
+      await api.post('/enrollment/enroll', {
+        student_id: user.user_id,
+        course_id: course.course_id
+      });
+
+      enrollInCourse(course);
+      alert(`Successfully enrolled in ${course.title}!`);
+      
+      const response = await api.get('/courses/available', { params: { userId: user.user_id } });
+      setAvailableCourses(response.data);
+    } catch (error) {
+      console.error('Error enrolling in course:', error);
+      alert(error.response?.data?.message || 'Failed to enroll in course');
     }
   };
 
-  const availableCourses = courseQuizzes.filter(course => !enrolledCourses.includes(course.courseId));
+  if (loading) {
+    return (
+      <div className="p-6 flex items-center justify-center min-h-screen">
+        <div className="text-xl text-gray-600">Loading available courses...</div>
+      </div>
+    );
+  }
 
   return (
     <div className="p-6">
@@ -36,20 +86,6 @@ const EnrollCourses = () => {
               onEnroll={handleEnroll}
             />
           ))}
-        </div>
-      )}
-
-      {enrolledCourses.length > 0 && (
-        <div className="mt-8 bg-green-50 border border-green-200 rounded-lg p-4">
-          <h2 className="text-lg font-semibold text-green-800 mb-2">
-            Enrolled Courses ({enrolledCourses.length})
-          </h2>
-          <ul className="list-disc list-inside text-green-700">
-            {enrolledCourses.map((courseId) => {
-              const course = courseQuizzes.find(c => c.courseId === courseId);
-              return <li key={courseId}>{course?.courseName}</li>;
-            })}
-          </ul>
         </div>
       )}
     </div>
