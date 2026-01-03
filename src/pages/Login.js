@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
-import { users } from "../data/users";
+import api from "../services/api";
 
 const Login = () => {
   const [values, setValues] = useState({
@@ -16,24 +16,22 @@ const Login = () => {
     setValues({ ...values, [e.target.name]: e.target.value });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     setError("");
 
-    const user = users.find(
-      (u) => u.email === values.email && u.password === values.password
-    );
-
-    if (user) {
-      login({
-        id: user.id,
-        name: user.name,
-        email: user.email,
-        role: user.role,
+    try {
+      const response = await api.post("/users/login", {
+        email: values.email,
+        password: values.password
       });
+
+      const userData = response.data;
+      localStorage.setItem('user', JSON.stringify(userData));
+      login(userData);
       navigate("/");
-    } else {
-      setError("Invalid email or password");
+    } catch (error) {
+      setError(error.response?.data?.message || "Invalid email or password");
     }
   };
 
