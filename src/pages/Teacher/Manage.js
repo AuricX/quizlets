@@ -13,14 +13,11 @@ function Manage() {
   const fetchCourses = async () => {
     try {
       setLoading(true);
-      // For now, use teacher_id = 1 (Alice Smith)
-      // Later: get from login or localStorage
       const teacherId = localStorage.getItem('teacher_id') || 1;
       const data = await getInstructorCourses(teacherId);
       setCourses(data);
     } catch (error) {
       console.error("Error fetching courses:", error);
-      // Fallback to empty array
       setCourses([]);
     } finally {
       setLoading(false);
