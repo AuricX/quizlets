@@ -22,14 +22,13 @@ import RemoveIcon from "@mui/icons-material/Remove";
 function CourseDetails() {
   const navigate = useNavigate();
   const { id } = useParams();
-
   const [course, setCourse] = useState(null);
   const [loading, setLoading] = useState(true);
-  const [open, setOpen] = useState(false);
 
+  const [open, setOpen] = useState(false);
   const [quizTitle, setQuizTitle] = useState("");
   const [questions, setQuestions] = useState([
-    { prompt: "", options: ["", "", ""], correctAnswer: 0 }
+    { prompt: "", options: ["", "", ""], correctAnswer: 0 },
   ]);
 
   useEffect(() => {
@@ -39,32 +38,14 @@ function CourseDetails() {
   const fetchCourse = async () => {
     try {
       setLoading(true);
-      const res = await axios.get(
-        `http://localhost:4000/course-details/${id}`
-      );
-      setCourse(res.data);
+      const res = await axios.get(`http://localhost:4000/course-details/${id}`);
+setCourse(res.data);
     } catch (err) {
       console.error(err);
-      navigate("/manage");
+      alert("Failed to fetch course");
+      navigate("/manage-courses");
     } finally {
       setLoading(false);
-    }
-  };
-
-  const handleSubmit = async () => {
-    try {
-      await axios.post(
-        `http://localhost:4000/course-details/${id}/quizzes`,
-        {
-          title: quizTitle,
-          questions
-        }
-      );
-      handleClose();
-      fetchCourse();
-    } catch (err) {
-      console.error(err);
-      alert("Failed to create quiz");
     }
   };
 
@@ -83,12 +64,26 @@ function CourseDetails() {
     setQuestions(questions.filter((_, index) => index !== i));
   };
 
+  const handleSubmit = async () => {
+    try {
+      await axios.post(`http://localhost:4000/course-details/${id}/quizzes`, {
+        title: quizTitle,
+        questions
+      });
+      handleClose();
+      fetchCourse();
+    } catch (err) {
+      console.error(err);
+      alert("Failed to create quiz");
+    }
+  };
+
   if (loading) return <p className="p-6">Loading...</p>;
-  if (!course) return <p>Course not found</p>;
+  if (!course) return <p className="p-6">Course not found</p>;
 
   return (
     <div className="p-6">
-      <Button onClick={() => navigate("/manage")} className="mb-4">
+      <Button onClick={() => navigate("/manage-courses")} className="mb-4">
         <ArrowBack /> Back
       </Button>
 
@@ -97,11 +92,12 @@ function CourseDetails() {
 
       {/* Quizzes */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-6">
-        {course.quizzes.map(q => (
+        {course.quizzes?.map((q) => (
           <QuizViewCard key={q.quiz_id} quiz={q} />
         ))}
       </div>
 
+      {/* Add Quiz Button */}
       <Box textAlign="center" mt={6}>
         <Button variant="primary" onClick={handleOpen}>
           Add Quiz
@@ -116,7 +112,7 @@ function CourseDetails() {
             label="Quiz Title"
             fullWidth
             value={quizTitle}
-            onChange={e => setQuizTitle(e.target.value)}
+            onChange={(e) => setQuizTitle(e.target.value)}
             sx={{ mb: 2 }}
           />
 
@@ -126,7 +122,7 @@ function CourseDetails() {
                 label={`Question ${i + 1}`}
                 fullWidth
                 value={q.prompt}
-                onChange={e => {
+                onChange={(e) => {
                   const copy = [...questions];
                   copy[i].prompt = e.target.value;
                   setQuestions(copy);
@@ -147,7 +143,7 @@ function CourseDetails() {
                     label={`Option ${j + 1}`}
                     fullWidth
                     value={opt}
-                    onChange={e => {
+                    onChange={(e) => {
                       const copy = [...questions];
                       copy[i].options[j] = e.target.value;
                       setQuestions(copy);
