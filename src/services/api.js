@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 const api = axios.create({
-  baseURL: 'http://quizlets-backend.railway.internal',
+  baseURL: 'https://quizlets-backend.railway.internal',
   timeout: 10000,
   headers: {
     'Content-Type': 'application/json',
