@@ -1,11 +1,11 @@
 import { useNavigate } from "react-router-dom";
 
-
 function QuizViewCard({ quiz, courseId }) {
   const navigate = useNavigate();
 
   const handleClick = () => {
-    navigate(`/courses/${courseId}/quiz/${quiz.id}`);
+    // use quiz_id to match backend
+    navigate(`/courses/${courseId}/quiz/${quiz.quiz_id}`);
   };
 
   return (
@@ -13,7 +13,7 @@ function QuizViewCard({ quiz, courseId }) {
       <h2 className="text-xl font-semibold text-gray-800">{quiz.title}</h2>
 
       <p className="text-gray-500 mt-2 text-sm">
-        {quiz.questions.length} questions
+        {quiz.questions?.length || 0} questions
       </p>
 
       <button
@@ -25,6 +25,5 @@ function QuizViewCard({ quiz, courseId }) {
     </div>
   );
 }
-
 
 export default QuizViewCard;
